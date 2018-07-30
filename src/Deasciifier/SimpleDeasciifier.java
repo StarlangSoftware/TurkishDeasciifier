@@ -25,13 +25,16 @@ public class SimpleDeasciifier implements Deasciifier {
      * @param index      {@link Integer} input.
      */
     private void generateCandidateList(ArrayList<String> candidates, String word, int index) {
-        String s = "iougcsIOUGCS";
+        String s = "ıiougcsİIOUGCS";
         if (index < word.length()) {
             if (s.indexOf(word.charAt(index)) != -1) {
                 int size = candidates.size();
                 for (int i = 0; i < size; i++) {
                     char[] modified = candidates.get(i).toCharArray();
                     switch (word.charAt(index)) {
+                        case 'ı':
+                            modified[index] = 'i';
+                            break;
                         case 'i':
                             modified[index] = '\u0131';
                             break;
@@ -52,6 +55,9 @@ public class SimpleDeasciifier implements Deasciifier {
                             break;
                         case 'I':
                             modified[index] = '\u0130';
+                            break;
+                        case 'İ':
+                            modified[index] = 'I';
                             break;
                         case 'O':
                             modified[index] = '\u00d6';

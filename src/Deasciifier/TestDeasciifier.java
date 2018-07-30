@@ -20,10 +20,8 @@ public class TestDeasciifier {
     public static void main(String[] args){
         FsmMorphologicalAnalyzer fsm;
         fsm = new FsmMorphologicalAnalyzer();
-        Sentence s = new Sentence("İri turpu ne yaptın .");
-        Sentence s1 = asciify(s);
-        System.out.println(s1);
-        Sentence s2 = deasciify(s1, fsm);
+        Sentence s = new Sentence("KALDİK");
+        Sentence s2 = deasciify(s, fsm);
         System.out.println(s2);
     }
 }
