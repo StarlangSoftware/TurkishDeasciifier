@@ -1,8 +1,6 @@
 package Deasciifier;
 
 import Corpus.Sentence;
-import Dictionary.TurkishWordComparator;
-import Dictionary.TxtDictionary;
 import MorphologicalAnalysis.FsmMorphologicalAnalyzer;
 
 public class TestDeasciifier {
