@@ -73,7 +73,7 @@ Deasciifier
 
 ### Maven Usage
 
-     <groupId>NlpToolkit</groupId>
+    <groupId>NlpToolkit</groupId>
     <artifactId>Deasciifier</artifactId>
     <version>1.0.1</version>
     <properties>
@@ -133,7 +133,7 @@ Deasciifier converts text written with only ASCII letters to its correct form us
         FsmMorphologicalAnalyzer fsm = new FsmMorphologicalAnalyzer();
         Deasciifier deasciifier = new SimpleDeasciifier(fsm);
      
-* `NGramDeasciifier`,
+* `NGramDeasciifier`
     
     * To create an instance of this, both a `FsmMorphologicalAnalyzer` and a `NGram` is required. 
     
