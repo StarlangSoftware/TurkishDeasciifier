@@ -18,7 +18,7 @@ public class TestDeasciifier {
     public static void main(String[] args){
         FsmMorphologicalAnalyzer fsm;
         fsm = new FsmMorphologicalAnalyzer();
-        Sentence s = new Sentence("COCUK");
+        Sentence s = new Sentence("zorlandik");
         Sentence s2 = deasciify(s, fsm);
         System.out.println(s2);
     }
