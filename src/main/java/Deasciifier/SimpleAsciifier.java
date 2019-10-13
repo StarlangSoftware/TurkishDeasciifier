@@ -14,7 +14,7 @@ public class SimpleAsciifier implements Asciifier {
      * @param word {@link Word} type input to asciify.
      * @return String output which is asciified.
      */
-    private String asciify(Word word) {
+    public String asciify(Word word) {
         char[] modified = word.getName().toCharArray();
         for (int i = 0; i < modified.length; i++) {
             switch (modified[i]) {
