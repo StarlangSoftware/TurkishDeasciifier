@@ -30,12 +30,25 @@ public class TestDeasciifier {
         }
     }
 
+    private static void createAsciifiedSame(String dictionaryFileName){
+        SimpleAsciifier asciifier = new SimpleAsciifier();
+        TxtDictionary dictionary = new TxtDictionary(dictionaryFileName, new TurkishWordComparator());
+        for (int i = 0; i < dictionary.size(); i++){
+            Word word = dictionary.getWord(i);
+            String asciified = asciifier.asciify(word);
+            if (dictionary.getWord(asciified) != null && !word.getName().equals(asciified)){
+                System.out.println(asciified + "\t" + word.getName());
+            }
+        }
+    }
+
     public static void main(String[] args){
         //createMisspellings("gittigidiyor_dictionary.txt", "gittigidiyor_misspellings.txt");
-        FsmMorphologicalAnalyzer fsm;
+        createAsciifiedSame("gittigidiyor_dictionary.txt");
+        /*FsmMorphologicalAnalyzer fsm;
         fsm = new FsmMorphologicalAnalyzer();
         Sentence s = new Sentence("zorlandik");
         Sentence s2 = deasciify(s, fsm);
-        System.out.println(s2);
+        System.out.println(s2);*/
     }
 }
