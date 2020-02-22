@@ -44,26 +44,32 @@ public class NGramDeasciifier extends SimpleDeasciifier {
         Sentence result = new Sentence();
         for (int i = 0; i < sentence.wordCount(); i++) {
             word = sentence.getWord(i);
-            candidates = candidateList(word);
-            bestCandidate = null;
-            bestRoot = null;
-            bestProbability = 0;
-            for (String candidate : candidates) {
-                FsmParseList fsmParseList = fsm.morphologicalAnalysis(candidate);
-                root = fsmParseList.getFsmParse(0).getWord();
-                if (previousRoot != null) {
-                    probability = nGram.getProbability(previousRoot, root);
-                } else {
-                    probability = nGram.getProbability(root);
+            FsmParseList fsmParses = fsm.morphologicalAnalysis(word.getName());
+            if (fsmParses.size() == 0){
+                candidates = candidateList(word);
+                bestCandidate = null;
+                bestRoot = null;
+                bestProbability = 0;
+                for (String candidate : candidates) {
+                    FsmParseList fsmParseList = fsm.morphologicalAnalysis(candidate);
+                    root = fsmParseList.getFsmParse(0).getWord();
+                    if (previousRoot != null) {
+                        probability = nGram.getProbability(previousRoot, root);
+                    } else {
+                        probability = nGram.getProbability(root);
+                    }
+                    if (probability > bestProbability) {
+                        bestCandidate = candidate;
+                        bestRoot = root;
+                        bestProbability = probability;
+                    }
                 }
-                if (probability > bestProbability) {
-                    bestCandidate = candidate;
-                    bestRoot = root;
-                    bestProbability = probability;
-                }
+                previousRoot = bestRoot;
+                result.addWord(new Word(bestCandidate));
+            } else {
+                result.addWord(word);
+                previousRoot = fsmParses.getFsmParse(0).getWord();
             }
-            previousRoot = bestRoot;
-            result.addWord(new Word(bestCandidate));
         }
         return result;
     }

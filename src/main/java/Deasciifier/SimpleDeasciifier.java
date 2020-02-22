@@ -136,10 +136,15 @@ public class SimpleDeasciifier implements Deasciifier {
         Sentence result = new Sentence();
         for (int i = 0; i < sentence.wordCount(); i++) {
             word = sentence.getWord(i);
-            candidates = candidateList(word);
-            if (candidates.size() > 0) {
-                randomCandidate = random.nextInt(candidates.size());
-                newWord = new Word(candidates.get(randomCandidate));
+            FsmParseList fsmParseList = fsm.morphologicalAnalysis(word.getName());
+            if (fsmParseList.size() == 0){
+                candidates = candidateList(word);
+                if (candidates.size() > 0) {
+                    randomCandidate = random.nextInt(candidates.size());
+                    newWord = new Word(candidates.get(randomCandidate));
+                } else {
+                    newWord = word;
+                }
             } else {
                 newWord = word;
             }
