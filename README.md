@@ -75,7 +75,7 @@ Use below line to generate jar file:
 
 ------------------------------------------------
 
-Deasciifier
+Detailed Description
 ============
 + [Asciifier](#using-asciifier)
 + [Deasciifier](#using-deasciifier)
