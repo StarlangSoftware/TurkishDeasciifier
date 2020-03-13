@@ -65,23 +65,20 @@ Use below line to generate jar file:
 
      mvn install
 
-
-------------------------------------------------
-
-Deasciifier
-============
-+ [Maven Usage](#maven-usage)
-+ [Asciifier](#using-asciifier)
-+ [Deasciifier](#using-deasciifier)
-
-
-### Maven Usage
+## Maven Usage
 
 	<dependency>
   	<groupId>NlpToolkit</groupId>
   	<artifactId>Deasciifier</artifactId>
  	<version>1.0.8</version>
 	</dependency>
+
+------------------------------------------------
+
+Deasciifier
+============
++ [Asciifier](#using-asciifier)
++ [Deasciifier](#using-deasciifier)
 
 ## Using Asciifier
 
@@ -127,14 +124,9 @@ Deasciifier converts text written with only ASCII letters to its correct form us
         *There are many smoothing methods available. For other smoothing methods, check [here](https://github.com/olcaytaner/NGram).*       
         * Loading from an existing model:
      
-                try {
-                    FileInputStream inFile = new FileInputStream("ngram.model");  
-                    ObjectInputStream inObject = new ObjectInputStream(inFile);
-                    NGram ngram = (NGram<Word>) inObject.readObject();
-                }catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-         *For further details, please check [here](https://github.com/olcaytaner/NGram).*        
+                    NGram ngram = new NGram("ngram.txt");
+
+	*For further details, please check [here](https://github.com/olcaytaner/NGram).*        
             
     * Afterwards, `NGramDeasciifier` can be created as below:
         
