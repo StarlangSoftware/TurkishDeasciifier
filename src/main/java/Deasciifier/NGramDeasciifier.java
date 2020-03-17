@@ -9,7 +9,7 @@ import Ngram.NGram;
 import java.util.ArrayList;
 
 public class NGramDeasciifier extends SimpleDeasciifier {
-    private NGram nGram;
+    private NGram<String> nGram;
 
     /**
      * A constructor of {@link NGramDeasciifier} class which takes an {@link FsmMorphologicalAnalyzer} and an {@link NGram}
@@ -19,7 +19,7 @@ public class NGramDeasciifier extends SimpleDeasciifier {
      * @param fsm   {@link FsmMorphologicalAnalyzer} type input.
      * @param nGram {@link NGram} type input.
      */
-    public NGramDeasciifier(FsmMorphologicalAnalyzer fsm, NGram nGram) {
+    public NGramDeasciifier(FsmMorphologicalAnalyzer fsm, NGram<String> nGram) {
         super(fsm);
         this.nGram = nGram;
     }
@@ -47,16 +47,16 @@ public class NGramDeasciifier extends SimpleDeasciifier {
             FsmParseList fsmParses = fsm.morphologicalAnalysis(word.getName());
             if (fsmParses.size() == 0){
                 candidates = candidateList(word);
-                bestCandidate = null;
-                bestRoot = null;
+                bestCandidate = word.getName();
+                bestRoot = word;
                 bestProbability = 0;
                 for (String candidate : candidates) {
                     FsmParseList fsmParseList = fsm.morphologicalAnalysis(candidate);
                     root = fsmParseList.getFsmParse(0).getWord();
                     if (previousRoot != null) {
-                        probability = nGram.getProbability(previousRoot, root);
+                        probability = nGram.getProbability(previousRoot.getName(), root.getName());
                     } else {
-                        probability = nGram.getProbability(root);
+                        probability = nGram.getProbability(root.getName());
                     }
                     if (probability > bestProbability) {
                         bestCandidate = candidate;
