@@ -3,7 +3,6 @@ package Deasciifier;
 import Corpus.Sentence;
 import Dictionary.Word;
 import MorphologicalAnalysis.FsmMorphologicalAnalyzer;
-import MorphologicalAnalysis.FsmParse;
 import MorphologicalAnalysis.FsmParseList;
 
 import java.util.ArrayList;
