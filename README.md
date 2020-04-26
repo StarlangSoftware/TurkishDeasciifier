@@ -4,8 +4,9 @@ This tool is used to turn Turkish text written in ASCII characters, which do not
 
 For Developers
 ============
-You can also see either [Python](https://github.com/olcaytaner/TurkishDeasciifier-Py) 
-or [C++](https://github.com/olcaytaner/TurkishDeasciifier-CPP) repository.
+
+You can also see [Python](https://github.com/starlangsoftware/TurkishDeasciifier-Py), [C++](https://github.com/starlangsoftware/TurkishDeasciifier-CPP), or [C#](https://github.com/starlangsoftware/TurkishDeasciifier-CS) repository.
+
 ## Requirements
 
 * [Java Development Kit 8 or higher](#java), Open JDK or Oracle JDK
