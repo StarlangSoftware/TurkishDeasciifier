@@ -77,7 +77,9 @@ public class SimpleDeasciifier implements Deasciifier {
                     candidates.add(new String(modified));
                 }
             }
-            generateCandidateList(candidates, word, index + 1);
+            if (candidates.size() < 10000){
+                generateCandidateList(candidates, word, index + 1);
+            }
         }
     }
 
