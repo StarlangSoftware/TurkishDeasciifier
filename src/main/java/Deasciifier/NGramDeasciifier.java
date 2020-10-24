@@ -25,6 +25,23 @@ public class NGramDeasciifier extends SimpleDeasciifier {
     }
 
     /**
+     * Checks the morphological analysis of the given word in the given index. If there is no misspelling, it returns
+     * the longest root word of the possible analyses.
+     * @param sentence Sentence to be analyzed.
+     * @param index Index of the word
+     * @return If the word is misspelled, null; otherwise the longest root word of the possible analyses.
+     */
+    private Word checkAnalysisAndSetRoot(Sentence sentence, int index){
+        if (index < sentence.wordCount()){
+            FsmParseList fsmParses = fsm.morphologicalAnalysis(sentence.getWord(index).getName());
+            if (fsmParses.size() != 0){
+                return fsmParses.getParseWithLongestRootWord().getWord();
+            }
+        }
+        return null;
+    }
+
+    /**
      * The deasciify method takes a {@link Sentence} as an input. First it creates a String {@link ArrayList} as candidates,
      * and a {@link Sentence} result. Then, loops i times where i ranges from 0 to words size of given sentence. It gets the
      * current word and generates a candidateList with this current word then, it loops through the candidateList. First it
@@ -39,49 +56,46 @@ public class NGramDeasciifier extends SimpleDeasciifier {
         Word word, bestRoot;
         Word previousRoot = null, root, nextRoot;
         String bestCandidate;
-        FsmParseList fsmParses, fsmParses2;
-        double probability, bestProbability;
+        FsmParseList fsmParses;
+        double previousProbability, nextProbability, bestProbability;
         ArrayList<String> candidates;
         Sentence result = new Sentence();
+        root = checkAnalysisAndSetRoot(sentence, 0);
+        nextRoot = checkAnalysisAndSetRoot(sentence, 1);
         for (int i = 0; i < sentence.wordCount(); i++) {
             word = sentence.getWord(i);
-            fsmParses = fsm.morphologicalAnalysis(word.getName());
-            if (fsmParses.size() == 0){
+            if (root == null){
                 candidates = candidateList(word);
                 bestCandidate = word.getName();
                 bestRoot = word;
                 bestProbability = 0;
                 for (String candidate : candidates) {
                     fsmParses = fsm.morphologicalAnalysis(candidate);
-                    root = fsmParses.getFsmParse(0).getWord();
+                    root = fsmParses.getParseWithLongestRootWord().getWord();
                     if (previousRoot != null) {
-                        probability = nGram.getProbability(previousRoot.getName(), root.getName());
+                        previousProbability = nGram.getProbability(previousRoot.getName(), root.getName());
                     } else {
-                        nextRoot = null;
-                        if (i + 1 < sentence.wordCount()){
-                            fsmParses2 = fsm.morphologicalAnalysis(sentence.getWord(i + 1).getName());
-                            if (fsmParses2.size() != 0){
-                                nextRoot = fsmParses2.getParseWithLongestRootWord().getWord();
-                            }
-                        }
-                        if (nextRoot != null){
-                            probability = nGram.getProbability(root.getName(), nextRoot.getName());
-                        } else {
-                            probability = nGram.getProbability(root.getName());
-                        }
+                        previousProbability = 0.0;
                     }
-                    if (probability > bestProbability) {
+                    if (nextRoot != null) {
+                        nextProbability = nGram.getProbability(root.getName(), nextRoot.getName());
+                    } else {
+                        nextProbability = 0.0;
+                    }
+                    if (Math.max(previousProbability, nextProbability) > bestProbability) {
                         bestCandidate = candidate;
                         bestRoot = root;
-                        bestProbability = probability;
+                        bestProbability = Math.max(previousProbability, nextProbability);
                     }
                 }
-                previousRoot = bestRoot;
+                root = bestRoot;
                 result.addWord(new Word(bestCandidate));
             } else {
                 result.addWord(word);
-                previousRoot = fsmParses.getParseWithLongestRootWord().getWord();
             }
+            previousRoot = root;
+            root = nextRoot;
+            nextRoot = checkAnalysisAndSetRoot(sentence, i + 2);
         }
         return result;
     }
