@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class NGramDeasciifier extends SimpleDeasciifier {
     private NGram<String> nGram;
+    private boolean rootNGram;
 
     /**
      * A constructor of {@link NGramDeasciifier} class which takes an {@link FsmMorphologicalAnalyzer} and an {@link NGram}
@@ -19,9 +20,10 @@ public class NGramDeasciifier extends SimpleDeasciifier {
      * @param fsm   {@link FsmMorphologicalAnalyzer} type input.
      * @param nGram {@link NGram} type input.
      */
-    public NGramDeasciifier(FsmMorphologicalAnalyzer fsm, NGram<String> nGram) {
+    public NGramDeasciifier(FsmMorphologicalAnalyzer fsm, NGram<String> nGram, boolean rootNGram) {
         super(fsm);
         this.nGram = nGram;
+        this.rootNGram = rootNGram;
     }
 
     /**
@@ -35,7 +37,11 @@ public class NGramDeasciifier extends SimpleDeasciifier {
         if (index < sentence.wordCount()){
             FsmParseList fsmParses = fsm.morphologicalAnalysis(sentence.getWord(index).getName());
             if (fsmParses.size() != 0){
-                return fsmParses.getParseWithLongestRootWord().getWord();
+                if (rootNGram){
+                    return fsmParses.getParseWithLongestRootWord().getWord();
+                } else {
+                    return sentence.getWord(index);
+                }
             }
         }
         return null;
@@ -71,7 +77,11 @@ public class NGramDeasciifier extends SimpleDeasciifier {
                 bestProbability = 0;
                 for (String candidate : candidates) {
                     fsmParses = fsm.morphologicalAnalysis(candidate);
-                    root = fsmParses.getParseWithLongestRootWord().getWord();
+                    if (rootNGram){
+                        root = fsmParses.getParseWithLongestRootWord().getWord();
+                    } else {
+                        root = new Word(candidate);
+                    }
                     if (previousRoot != null) {
                         previousProbability = nGram.getProbability(previousRoot.getName(), root.getName());
                     } else {

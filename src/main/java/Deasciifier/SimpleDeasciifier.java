@@ -93,7 +93,7 @@ public class SimpleDeasciifier implements Deasciifier {
      * @param word {@link Word} type input.
      * @return ArrayList candidates.
      */
-    protected ArrayList<String> candidateList(Word word) {
+    public ArrayList<String> candidateList(Word word) {
         ArrayList<String> candidates;
         candidates = new ArrayList<String>();
         candidates.add(word.getName());

@@ -5,18 +5,26 @@ import Corpus.Sentence;
 import MorphologicalAnalysis.FsmMorphologicalAnalyzer;
 import Ngram.NGram;
 import Ngram.NoSmoothing;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class NGramDeasciifierTest {
 
+    FsmMorphologicalAnalyzer fsm;
+    NGram<String> nGram;
+
+    @Before
+    public void setUp(){
+        fsm = new FsmMorphologicalAnalyzer();
+        nGram = new NGram<String>("ngram.txt");
+        nGram.calculateNGramProbabilities(new NoSmoothing<>());
+    }
+
     @Test
     public void testDeasciify() {
-        FsmMorphologicalAnalyzer fsm = new FsmMorphologicalAnalyzer();
-        NGram<String> nGram = new NGram<String>("ngram.txt");
-        nGram.calculateNGramProbabilities(new NoSmoothing<>());
-        NGramDeasciifier nGramDeasciifier = new NGramDeasciifier(fsm, nGram);
+        NGramDeasciifier nGramDeasciifier = new NGramDeasciifier(fsm, nGram, true);
         SimpleAsciifier simpleAsciifier = new SimpleAsciifier();
         Corpus corpus = new Corpus("corpus.txt");
         for (int i = 0; i < corpus.sentenceCount(); i++){
@@ -32,4 +40,13 @@ public class NGramDeasciifierTest {
             }
         }
     }
+
+    @Test
+    public void testDeasciify2() {
+        NGramDeasciifier nGramDeasciifier = new NGramDeasciifier(fsm, nGram, false);
+        assertEquals("noter hakkında", nGramDeasciifier.deasciify(new Sentence("noter hakkinda")).toString());
+        assertEquals("sandık medrese", nGramDeasciifier.deasciify(new Sentence("sandik medrese")).toString());
+        assertEquals("kuran'ı karşılıklı", nGramDeasciifier.deasciify(new Sentence("kuran'ı karsilikli")).toString());
+    }
+
 }
