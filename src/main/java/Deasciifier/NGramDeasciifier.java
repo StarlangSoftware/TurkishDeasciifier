@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class NGramDeasciifier extends SimpleDeasciifier {
     private NGram<String> nGram;
     private boolean rootNGram;
+    private double threshold = 0.0;
 
     /**
      * A constructor of {@link NGramDeasciifier} class which takes an {@link FsmMorphologicalAnalyzer} and an {@link NGram}
@@ -47,6 +48,10 @@ public class NGramDeasciifier extends SimpleDeasciifier {
         return null;
     }
 
+    public void setThreshold(double threshold){
+        this.threshold = threshold;
+    }
+
     /**
      * The deasciify method takes a {@link Sentence} as an input. First it creates a String {@link ArrayList} as candidates,
      * and a {@link Sentence} result. Then, loops i times where i ranges from 0 to words size of given sentence. It gets the
@@ -74,7 +79,7 @@ public class NGramDeasciifier extends SimpleDeasciifier {
                 candidates = candidateList(word);
                 bestCandidate = word.getName();
                 bestRoot = word;
-                bestProbability = 0;
+                bestProbability = threshold;
                 for (String candidate : candidates) {
                     fsmParses = fsm.morphologicalAnalysis(candidate);
                     if (rootNGram){
