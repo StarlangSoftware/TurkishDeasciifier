@@ -73,7 +73,7 @@ public class NGramDeasciifier extends SimpleDeasciifier {
         this.threshold = threshold;
     }
 
-    public double getProbability(String word1, String word2){
+    private double getProbability(String word1, String word2){
         if (simple){
             return simpleNGram.getProbability(word1 + " " + word2);
         } else {
