@@ -5,16 +5,13 @@ import Dictionary.Word;
 import MorphologicalAnalysis.FsmMorphologicalAnalyzer;
 import MorphologicalAnalysis.FsmParseList;
 import Ngram.NGram;
-import Ngram.SimpleNGram;
 
 import java.util.ArrayList;
 
 public class NGramDeasciifier extends SimpleDeasciifier {
     private NGram<String> nGram;
-    private SimpleNGram simpleNGram;
     private boolean rootNGram;
     private double threshold = 0.0;
-    private boolean simple;
 
     /**
      * A constructor of {@link NGramDeasciifier} class which takes an {@link FsmMorphologicalAnalyzer} and an {@link NGram}
@@ -29,23 +26,6 @@ public class NGramDeasciifier extends SimpleDeasciifier {
         super(fsm);
         this.nGram = nGram;
         this.rootNGram = rootNGram;
-        simple = false;
-    }
-
-    /**
-     * A constructor of {@link NGramDeasciifier} class which takes an {@link FsmMorphologicalAnalyzer} and an {@link SimpleNGram}
-     * as inputs. It first calls it super class {@link SimpleDeasciifier} with given {@link FsmMorphologicalAnalyzer} input
-     * then initializes nGram variable with given {@link SimpleNGram} input.
-     *
-     * @param fsm   {@link FsmMorphologicalAnalyzer} type input.
-     * @param simpleNGram {@link SimpleNGram} type input.
-     * @param rootNGram True if the NGram have been constructed for the root words, false otherwise.
-     */
-    public NGramDeasciifier(FsmMorphologicalAnalyzer fsm, SimpleNGram simpleNGram, boolean rootNGram) {
-        super(fsm);
-        this.simpleNGram = simpleNGram;
-        this.rootNGram = rootNGram;
-        simple = true;
     }
 
     /**
@@ -74,11 +54,7 @@ public class NGramDeasciifier extends SimpleDeasciifier {
     }
 
     private double getProbability(String word1, String word2){
-        if (simple){
-            return simpleNGram.getProbability(word1 + " " + word2);
-        } else {
-            return nGram.getProbability(word1, word2);
-        }
+        return nGram.getProbability(word1, word2);
     }
 
     /**

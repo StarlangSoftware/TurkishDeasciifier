@@ -5,7 +5,6 @@ import Corpus.Sentence;
 import MorphologicalAnalysis.FsmMorphologicalAnalyzer;
 import Ngram.NGram;
 import Ngram.NoSmoothing;
-import Ngram.SimpleNGram;
 import org.junit.Before;
 import org.junit.Test;
 
