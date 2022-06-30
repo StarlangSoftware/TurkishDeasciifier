@@ -131,7 +131,8 @@ Deasciifier converts text written with only ASCII letters to its correct form us
         * Loading from an existing model:
      
                     NGram ngram = new NGram("ngram.txt");
-
+                    ngram.calculateNGramProbabilities(new LaplaceSmoothing());
+      
 	*For further details, please check [here](https://github.com/olcaytaner/NGram).*        
             
     * Afterwards, `NGramDeasciifier` can be created as below:
