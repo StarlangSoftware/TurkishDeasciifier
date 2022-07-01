@@ -3,6 +3,7 @@ package Deasciifier;
 import Corpus.Corpus;
 import Corpus.Sentence;
 import MorphologicalAnalysis.FsmMorphologicalAnalyzer;
+import Ngram.LaplaceSmoothing;
 import Ngram.NGram;
 import Ngram.NoSmoothing;
 import org.junit.Before;
@@ -49,4 +50,15 @@ public class NGramDeasciifierTest {
         assertEquals("kuran'ı karşılıklı", nGramDeasciifier.deasciify(new Sentence("kuran'ı karsilikli")).toString());
     }
 
+    @Test
+    public void testDeasciify3() {
+        nGram.calculateNGramProbabilities(new LaplaceSmoothing<>());
+        NGramDeasciifier nGramDeasciifier = new NGramDeasciifier(fsm, nGram, true);
+        assertEquals("dün akşam yeni aldığımız çam ağacını süsledik",
+                nGramDeasciifier.deasciify(new Sentence("dün aksam yenı aldıgımız cam agacini susledık")).toString());
+        assertEquals("ünlü sanatçı tartışmalı konu hakkında demeç vermekten kaçındı",
+                nGramDeasciifier.deasciify(new Sentence("unlu sanatci tartismali konu hakkinda demec vermekten kacindi")).toString());
+        assertEquals("köylü de durumdan oldukça şikayetçiydi",
+                nGramDeasciifier.deasciify(new Sentence("koylu de durumdan oldukca şikayetciydi")).toString());
+    }
 }

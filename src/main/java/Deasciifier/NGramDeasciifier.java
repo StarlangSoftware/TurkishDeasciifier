@@ -5,13 +5,20 @@ import Dictionary.Word;
 import MorphologicalAnalysis.FsmMorphologicalAnalyzer;
 import MorphologicalAnalysis.FsmParseList;
 import Ngram.NGram;
+import Util.FileUtils;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class NGramDeasciifier extends SimpleDeasciifier {
     private NGram<String> nGram;
     private boolean rootNGram;
     private double threshold = 0.0;
+    private HashMap<String, String> ascifiiedSame = new HashMap<>();
 
     /**
      * A constructor of {@link NGramDeasciifier} class which takes an {@link FsmMorphologicalAnalyzer} and an {@link NGram}
@@ -26,6 +33,7 @@ public class NGramDeasciifier extends SimpleDeasciifier {
         super(fsm);
         this.nGram = nGram;
         this.rootNGram = rootNGram;
+        loadAsciifiedSameList();
     }
 
     /**
@@ -78,45 +86,81 @@ public class NGramDeasciifier extends SimpleDeasciifier {
         Sentence result = new Sentence();
         root = checkAnalysisAndSetRoot(sentence, 0);
         nextRoot = checkAnalysisAndSetRoot(sentence, 1);
-        for (int i = 0; i < sentence.wordCount(); i++) {
-            word = sentence.getWord(i);
-            if (root == null){
-                candidates = candidateList(word);
-                bestCandidate = word.getName();
-                bestRoot = word;
-                bestProbability = threshold;
-                for (String candidate : candidates) {
-                    fsmParses = fsm.morphologicalAnalysis(candidate);
-                    if (rootNGram){
-                        root = fsmParses.getParseWithLongestRootWord().getWord();
-                    } else {
-                        root = new Word(candidate);
-                    }
-                    if (previousRoot != null) {
-                        previousProbability = getProbability(previousRoot.getName(), root.getName());
-                    } else {
-                        previousProbability = 0.0;
-                    }
-                    if (nextRoot != null) {
-                        nextProbability = getProbability(root.getName(), nextRoot.getName());
-                    } else {
-                        nextProbability = 0.0;
-                    }
-                    if (Math.max(previousProbability, nextProbability) > bestProbability) {
-                        bestCandidate = candidate;
-                        bestRoot = root;
-                        bestProbability = Math.max(previousProbability, nextProbability);
-                    }
+
+        for (int repeat = 0; repeat < 2; repeat++) {
+            for (int i = 0; i < sentence.wordCount(); i++) {
+                candidates = new ArrayList<>();
+                boolean isAsciifiedSame = false;
+                word = sentence.getWord(i);
+                if (ascifiiedSame.containsKey(word.getName())) {
+                    candidates.add(word.getName());
+                    candidates.add(ascifiiedSame.get(word.getName()));
+                    isAsciifiedSame = true;
                 }
-                root = bestRoot;
-                result.addWord(new Word(bestCandidate));
-            } else {
-                result.addWord(word);
+                if (root == null || isAsciifiedSame) {
+                    if (!isAsciifiedSame) {
+                        candidates = candidateList(word);
+                    }
+                    bestCandidate = word.getName();
+                    bestRoot = word;
+                    bestProbability = threshold;
+                    for (String candidate : candidates) {
+                        fsmParses = fsm.morphologicalAnalysis(candidate);
+                        if (rootNGram && !isAsciifiedSame) {
+                            root = fsmParses.getParseWithLongestRootWord().getWord();
+                        } else {
+                            root = new Word(candidate);
+                        }
+                        if (previousRoot != null) {
+                            previousProbability = getProbability(previousRoot.getName(), root.getName());
+                        } else {
+                            previousProbability = 0.0;
+                        }
+                        if (nextRoot != null) {
+                            nextProbability = getProbability(root.getName(), nextRoot.getName());
+                        } else {
+                            nextProbability = 0.0;
+                        }
+                        if (Math.max(previousProbability, nextProbability) > bestProbability) {
+                            bestCandidate = candidate;
+                            bestRoot = root;
+                            bestProbability = Math.max(previousProbability, nextProbability);
+                        }
+                    }
+                    root = bestRoot;
+                    result.addWord(new Word(bestCandidate));
+                } else {
+                    result.addWord(word);
+                }
+                previousRoot = root;
+                root = nextRoot;
+                nextRoot = checkAnalysisAndSetRoot(sentence, i + 2);
             }
-            previousRoot = root;
-            root = nextRoot;
-            nextRoot = checkAnalysisAndSetRoot(sentence, i + 2);
+            sentence = new Sentence(result.toString());
+            if (repeat < 1) {
+                result = new Sentence();
+                previousRoot = null;
+                root = checkAnalysisAndSetRoot(sentence, 0);
+                nextRoot = checkAnalysisAndSetRoot(sentence, 1);
+            }
         }
         return result;
+    }
+
+    private void loadAsciifiedSameList() {
+        String line;
+        String[] list;
+        try{
+            BufferedReader asciifiedSameReader = new BufferedReader(new InputStreamReader(FileUtils.getInputStream("asciified-same.txt"), StandardCharsets.UTF_8));
+            line = asciifiedSameReader.readLine();
+            while (line != null) {
+                list = line.split(" ");
+                ascifiiedSame.put(list[0] , list[1]);
+                line = asciifiedSameReader.readLine();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
