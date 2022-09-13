@@ -81,6 +81,7 @@ public class NGramDeasciifier extends SimpleDeasciifier {
         Word previousRoot = null, root, nextRoot;
         String bestCandidate;
         FsmParseList fsmParses;
+        boolean isAsciifiedSame;
         double previousProbability, nextProbability, bestProbability;
         ArrayList<String> candidates;
         Sentence result = new Sentence();
@@ -90,7 +91,7 @@ public class NGramDeasciifier extends SimpleDeasciifier {
         for (int repeat = 0; repeat < 2; repeat++) {
             for (int i = 0; i < sentence.wordCount(); i++) {
                 candidates = new ArrayList<>();
-                boolean isAsciifiedSame = false;
+                isAsciifiedSame = false;
                 word = sentence.getWord(i);
                 if (asciifiedSame.containsKey(word.getName())) {
                     candidates.add(word.getName());
@@ -136,7 +137,7 @@ public class NGramDeasciifier extends SimpleDeasciifier {
                 root = nextRoot;
                 nextRoot = checkAnalysisAndSetRoot(sentence, i + 2);
             }
-            sentence = new Sentence(result.toString());
+            sentence = result;
             if (repeat < 1) {
                 result = new Sentence();
                 previousRoot = null;
