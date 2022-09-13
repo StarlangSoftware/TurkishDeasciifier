@@ -18,7 +18,7 @@ public class NGramDeasciifier extends SimpleDeasciifier {
     private NGram<String> nGram;
     private boolean rootNGram;
     private double threshold = 0.0;
-    private HashMap<String, String> ascifiiedSame = new HashMap<>();
+    private HashMap<String, String> asciifiedSame = new HashMap<>();
 
     /**
      * A constructor of {@link NGramDeasciifier} class which takes an {@link FsmMorphologicalAnalyzer} and an {@link NGram}
@@ -92,9 +92,9 @@ public class NGramDeasciifier extends SimpleDeasciifier {
                 candidates = new ArrayList<>();
                 boolean isAsciifiedSame = false;
                 word = sentence.getWord(i);
-                if (ascifiiedSame.containsKey(word.getName())) {
+                if (asciifiedSame.containsKey(word.getName())) {
                     candidates.add(word.getName());
-                    candidates.add(ascifiiedSame.get(word.getName()));
+                    candidates.add(asciifiedSame.get(word.getName()));
                     isAsciifiedSame = true;
                 }
                 if (root == null || isAsciifiedSame) {
@@ -155,7 +155,7 @@ public class NGramDeasciifier extends SimpleDeasciifier {
             line = asciifiedSameReader.readLine();
             while (line != null) {
                 list = line.split(" ");
-                ascifiiedSame.put(list[0] , list[1]);
+                asciifiedSame.put(list[0] , list[1]);
                 line = asciifiedSameReader.readLine();
             }
         }
