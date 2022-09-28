@@ -87,63 +87,53 @@ public class NGramDeasciifier extends SimpleDeasciifier {
         Sentence result = new Sentence();
         root = checkAnalysisAndSetRoot(sentence, 0);
         nextRoot = checkAnalysisAndSetRoot(sentence, 1);
-
-        for (int repeat = 0; repeat < 2; repeat++) {
-            for (int i = 0; i < sentence.wordCount(); i++) {
-                candidates = new ArrayList<>();
-                isAsciifiedSame = false;
-                word = sentence.getWord(i);
-                if (asciifiedSame.containsKey(word.getName())) {
-                    candidates.add(word.getName());
-                    candidates.add(asciifiedSame.get(word.getName()));
-                    isAsciifiedSame = true;
-                }
-                if (root == null || isAsciifiedSame) {
-                    if (!isAsciifiedSame) {
-                        candidates = candidateList(word);
-                    }
-                    bestCandidate = word.getName();
-                    bestRoot = word;
-                    bestProbability = threshold;
-                    for (String candidate : candidates) {
-                        fsmParses = fsm.morphologicalAnalysis(candidate);
-                        if (rootNGram && !isAsciifiedSame) {
-                            root = fsmParses.getParseWithLongestRootWord().getWord();
-                        } else {
-                            root = new Word(candidate);
-                        }
-                        if (previousRoot != null) {
-                            previousProbability = getProbability(previousRoot.getName(), root.getName());
-                        } else {
-                            previousProbability = 0.0;
-                        }
-                        if (nextRoot != null) {
-                            nextProbability = getProbability(root.getName(), nextRoot.getName());
-                        } else {
-                            nextProbability = 0.0;
-                        }
-                        if (Math.max(previousProbability, nextProbability) > bestProbability) {
-                            bestCandidate = candidate;
-                            bestRoot = root;
-                            bestProbability = Math.max(previousProbability, nextProbability);
-                        }
-                    }
-                    root = bestRoot;
-                    result.addWord(new Word(bestCandidate));
-                } else {
-                    result.addWord(word);
-                }
-                previousRoot = root;
-                root = nextRoot;
-                nextRoot = checkAnalysisAndSetRoot(sentence, i + 2);
+        for (int i = 0; i < sentence.wordCount(); i++) {
+            candidates = new ArrayList<>();
+            isAsciifiedSame = false;
+            word = sentence.getWord(i);
+            if (asciifiedSame.containsKey(word.getName())) {
+                candidates.add(word.getName());
+                candidates.add(asciifiedSame.get(word.getName()));
+                isAsciifiedSame = true;
             }
-            sentence = result;
-            if (repeat < 1) {
-                result = new Sentence();
-                previousRoot = null;
-                root = checkAnalysisAndSetRoot(sentence, 0);
-                nextRoot = checkAnalysisAndSetRoot(sentence, 1);
+            if (root == null || isAsciifiedSame) {
+                if (!isAsciifiedSame) {
+                    candidates = candidateList(word);
+                }
+                bestCandidate = word.getName();
+                bestRoot = word;
+                bestProbability = threshold;
+                for (String candidate : candidates) {
+                    fsmParses = fsm.morphologicalAnalysis(candidate);
+                    if (rootNGram && !isAsciifiedSame) {
+                        root = fsmParses.getParseWithLongestRootWord().getWord();
+                    } else {
+                        root = new Word(candidate);
+                    }
+                    if (previousRoot != null) {
+                        previousProbability = getProbability(previousRoot.getName(), root.getName());
+                    } else {
+                        previousProbability = 0.0;
+                    }
+                    if (nextRoot != null) {
+                        nextProbability = getProbability(root.getName(), nextRoot.getName());
+                    } else {
+                        nextProbability = 0.0;
+                    }
+                    if (Math.max(previousProbability, nextProbability) > bestProbability) {
+                        bestCandidate = candidate;
+                        bestRoot = root;
+                        bestProbability = Math.max(previousProbability, nextProbability);
+                    }
+                }
+                root = bestRoot;
+                result.addWord(new Word(bestCandidate));
+            } else {
+                result.addWord(word);
             }
+            previousRoot = root;
+            root = nextRoot;
+            nextRoot = checkAnalysisAndSetRoot(sentence, i + 2);
         }
         return result;
     }

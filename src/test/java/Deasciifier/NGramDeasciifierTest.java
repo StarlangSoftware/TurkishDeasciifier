@@ -55,9 +55,9 @@ public class NGramDeasciifierTest {
         nGram.calculateNGramProbabilities(new LaplaceSmoothing<>());
         NGramDeasciifier nGramDeasciifier = new NGramDeasciifier(fsm, nGram, true);
         assertEquals("dün akşam yeni aldığımız çam ağacını süsledik",
-                nGramDeasciifier.deasciify(new Sentence("dün aksam yenı aldıgımız cam agacini susledık")).toString());
+                nGramDeasciifier.deasciify(new Sentence("dün aksam yenı aldıgımız cam ağacını susledık")).toString());
         assertEquals("ünlü sanatçı tartışmalı konu hakkında demeç vermekten kaçındı",
-                nGramDeasciifier.deasciify(new Sentence("unlu sanatci tartismali konu hakkinda demec vermekten kacindi")).toString());
+                nGramDeasciifier.deasciify(new Sentence("unlu sanatçı tartismali konu hakkinda demec vermekten kacindi")).toString());
         assertEquals("köylü de durumdan oldukça şikayetçiydi",
                 nGramDeasciifier.deasciify(new Sentence("koylu de durumdan oldukca şikayetciydi")).toString());
     }
