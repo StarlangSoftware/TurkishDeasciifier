@@ -20,10 +20,10 @@ public class SimpleDeasciifierTest {
 
     @Test
     public void testDeasciify2() {
-        SimpleDeasciifier nGramDeasciifier = new SimpleDeasciifier(fsm);
-        assertEquals("hakkında", nGramDeasciifier.deasciify(new Sentence("hakkinda")).toString());
-        assertEquals("küçük", nGramDeasciifier.deasciify(new Sentence("kucuk")).toString());
-        assertEquals("karşılıklı", nGramDeasciifier.deasciify(new Sentence("karsilikli")).toString());
+        SimpleDeasciifier simpleDeasciifier = new SimpleDeasciifier(fsm);
+        assertEquals("hakkında", simpleDeasciifier.deasciify(new Sentence("hakkinda")).toString());
+        assertEquals("küçük", simpleDeasciifier.deasciify(new Sentence("kucuk")).toString());
+        assertEquals("karşılıklı", simpleDeasciifier.deasciify(new Sentence("karsilikli")).toString());
     }
 
 }
