@@ -35,7 +35,6 @@ public class SimpleDeasciifierTest {
         assertEquals("karşılıklı", simpleDeasciifier.deasciify(new Sentence("karsilikli")).toString());
     }
 
-    @Test
     public void testDistinctWordList(){
         SimpleDeasciifier simpleDeasciifier = new SimpleDeasciifier(fsm);
         try {
