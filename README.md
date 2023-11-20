@@ -16,7 +16,7 @@ Class Diagram
 For Developers
 ============
 
-You can also see [Python](https://github.com/starlangsoftware/TurkishDeasciifier-Py), [Cython](https://github.com/starlangsoftware/TurkishDeasciifier-Cy), [C++](https://github.com/starlangsoftware/TurkishDeasciifier-CPP), [Swift](https://github.com/starlangsoftware/TurkishDeasciifier-Swift), [Js](https://github.com/starlangsoftware/TurkishDeasciifier-Js), or [C#](https://github.com/starlangsoftware/TurkishDeasciifier-CS) repository.
+You can also see [Python](https://github.com/starlangsoftware/TurkishDeasciifier-Py), [Cython](https://github.com/starlangsoftware/TurkishDeasciifier-Cy), [C++](https://github.com/starlangsoftware/TurkishDeasciifier-CPP), [C](https://github.com/starlangsoftware/TurkishDeasciifier-C), [Swift](https://github.com/starlangsoftware/TurkishDeasciifier-Swift), [Js](https://github.com/starlangsoftware/TurkishDeasciifier-Js), or [C#](https://github.com/starlangsoftware/TurkishDeasciifier-CS) repository.
 
 ## Requirements
 
