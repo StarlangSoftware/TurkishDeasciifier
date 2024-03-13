@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NGramDeasciifier extends SimpleDeasciifier {
-    private NGram<String> nGram;
-    private boolean rootNGram;
+    private final NGram<String> nGram;
+    private final boolean rootNGram;
     private double threshold = 0.0;
-    private HashMap<String, String> asciifiedSame = new HashMap<>();
+    private final HashMap<String, String> asciifiedSame = new HashMap<>();
 
     /**
      * A constructor of {@link NGramDeasciifier} class which takes an {@link FsmMorphologicalAnalyzer} and an {@link NGram}
@@ -150,8 +150,7 @@ public class NGramDeasciifier extends SimpleDeasciifier {
                 line = asciifiedSameReader.readLine();
             }
         }
-        catch (IOException e) {
-            e.printStackTrace();
+        catch (IOException ignored) {
         }
     }
 }

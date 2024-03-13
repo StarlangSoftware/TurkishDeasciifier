@@ -18,40 +18,40 @@ public class SimpleAsciifier implements Asciifier {
         char[] modified = word.getName().toCharArray();
         for (int i = 0; i < modified.length; i++) {
             switch (modified[i]) {
-                case '\u00e7':
+                case 'ç':
                     modified[i] = 'c';
                     break;
-                case '\u00f6':
+                case 'ö':
                     modified[i] = 'o';
                     break;
-                case '\u011f':
+                case 'ğ':
                     modified[i] = 'g';
                     break;
-                case '\u00fc':
+                case 'ü':
                     modified[i] = 'u';
                     break;
-                case '\u015f':
+                case 'ş':
                     modified[i] = 's';
                     break;
-                case '\u0131':
+                case 'ı':
                     modified[i] = 'i';
                     break;
-                case '\u00c7':
+                case 'Ç':
                     modified[i] = 'C';
                     break;
-                case '\u00d6':
+                case 'Ö':
                     modified[i] = 'O';
                     break;
-                case '\u011e':
+                case 'Ğ':
                     modified[i] = 'G';
                     break;
-                case '\u00dc':
+                case 'Ü':
                     modified[i] = 'U';
                     break;
-                case '\u015e':
+                case 'Ş':
                     modified[i] = 'S';
                     break;
-                case '\u0130':
+                case 'İ':
                     modified[i] = 'I';
                     break;
             }

@@ -35,43 +35,43 @@ public class SimpleDeasciifier implements Deasciifier {
                             modified[index] = 'i';
                             break;
                         case 'i':
-                            modified[index] = '\u0131';
+                            modified[index] = 'ı';
                             break;
                         case 'o':
-                            modified[index] = '\u00f6';
+                            modified[index] = 'ö';
                             break;
                         case 'u':
-                            modified[index] = '\u00fc';
+                            modified[index] = 'ü';
                             break;
                         case 'g':
-                            modified[index] = '\u011f';
+                            modified[index] = 'ğ';
                             break;
                         case 'c':
-                            modified[index] = '\u00e7';
+                            modified[index] = 'ç';
                             break;
                         case 's':
-                            modified[index] = '\u015f';
+                            modified[index] = 'ş';
                             break;
                         case 'I':
-                            modified[index] = '\u0130';
+                            modified[index] = 'İ';
                             break;
                         case 'İ':
                             modified[index] = 'I';
                             break;
                         case 'O':
-                            modified[index] = '\u00d6';
+                            modified[index] = 'Ö';
                             break;
                         case 'U':
-                            modified[index] = '\u00dc';
+                            modified[index] = 'Ü';
                             break;
                         case 'G':
-                            modified[index] = '\u011e';
+                            modified[index] = 'Ğ';
                             break;
                         case 'C':
-                            modified[index] = '\u00c7';
+                            modified[index] = 'Ç';
                             break;
                         case 'S':
-                            modified[index] = '\u015e';
+                            modified[index] = 'Ş';
                             break;
                     }
                     candidates.add(new String(modified));
@@ -95,7 +95,7 @@ public class SimpleDeasciifier implements Deasciifier {
      */
     public ArrayList<String> candidateList(Word word) {
         ArrayList<String> candidates;
-        candidates = new ArrayList<String>();
+        candidates = new ArrayList<>();
         candidates.add(word.getName());
         generateCandidateList(candidates, word.getName(), 0);
         for (int i = 0; i < candidates.size(); i++) {
@@ -140,7 +140,7 @@ public class SimpleDeasciifier implements Deasciifier {
             FsmParseList fsmParseList = fsm.morphologicalAnalysis(word.getName());
             if (fsmParseList.size() == 0){
                 candidates = candidateList(word);
-                if (candidates.size() > 0) {
+                if (!candidates.isEmpty()) {
                     randomCandidate = random.nextInt(candidates.size());
                     newWord = new Word(candidates.get(randomCandidate));
                 } else {
