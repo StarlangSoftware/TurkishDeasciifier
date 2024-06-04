@@ -58,7 +58,7 @@ public class NGramDeasciifier extends SimpleDeasciifier {
     }
 
     /**
-     * Sets minimum Ngram probability threshold for replacement candidates.
+     * Sets minimum N-Gram probability threshold for replacement candidates.
      * @param threshold New N-Gram probability threshold
      */
     public void setThreshold(double threshold){
