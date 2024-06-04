@@ -57,10 +57,20 @@ public class NGramDeasciifier extends SimpleDeasciifier {
         return null;
     }
 
+    /**
+     * Sets minimum Ngram probability threshold for replacement candidates.
+     * @param threshold New N-Gram probability threshold
+     */
     public void setThreshold(double threshold){
         this.threshold = threshold;
     }
 
+    /**
+     * Returns the bi-gram probability P(word2 | word1) for the given bigram consisting of two words.
+     * @param word1 First word in bi-gram
+     * @param word2 Second word in bi-gram
+     * @return Bi-gram probability P(word2 | word1)
+     */
     private double getProbability(String word1, String word2){
         return nGram.getProbability(word1, word2);
     }
@@ -138,6 +148,10 @@ public class NGramDeasciifier extends SimpleDeasciifier {
         return result;
     }
 
+    /**
+     * Loads asciified same word list. Asciified same words are the words whose asciified versions are also
+     * valid Turkish words. For example, ascified version of 'ekşi' is 'eksi', ascified version of 'fön' is 'fon'.
+     */
     private void loadAsciifiedSameList() {
         String line;
         String[] list;
