@@ -18,7 +18,7 @@ public class NGramDeasciifier extends SimpleDeasciifier {
     private final NGram<String> nGram;
     private final boolean rootNGram;
     private double threshold = 0.0;
-    private final HashMap<String, String> asciifiedSame = new HashMap<>();
+    private HashMap<String, String> asciifiedSame = new HashMap<>();
 
     /**
      * A constructor of {@link NGramDeasciifier} class which takes an {@link FsmMorphologicalAnalyzer} and an {@link NGram}
@@ -153,18 +153,6 @@ public class NGramDeasciifier extends SimpleDeasciifier {
      * valid Turkish words. For example, ascified version of 'ekşi' is 'eksi', ascified version of 'fön' is 'fon'.
      */
     private void loadAsciifiedSameList() {
-        String line;
-        String[] list;
-        try{
-            BufferedReader asciifiedSameReader = new BufferedReader(new InputStreamReader(FileUtils.getInputStream("asciified-same.txt"), StandardCharsets.UTF_8));
-            line = asciifiedSameReader.readLine();
-            while (line != null) {
-                list = line.split(" ");
-                asciifiedSame.put(list[0] , list[1]);
-                line = asciifiedSameReader.readLine();
-            }
-        }
-        catch (IOException ignored) {
-        }
+        asciifiedSame = FileUtils.readHashMap("asciified-same.txt");
     }
 }
