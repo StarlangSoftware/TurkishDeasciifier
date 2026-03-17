@@ -3,6 +3,13 @@ Turkish Deasciifier
 
 This tool is used to turn Turkish text written in ASCII characters, which do not include some letters of the Turkish alphabet, into correctly written text with the appropriate Turkish characters (such as ı, ş, and so forth). It can also do the opposite, turning Turkish input into ASCII text, for the purpose of processing.
 
+
+Simple Web Interface
+============
+[Asciifier Link 1](http://104.247.163.162/nlptoolkit/turkish-asciifier.html) [Asciifier Link 2](https://starlangsoftware.github.io/nlptoolkit-web-simple/turkish-asciifier.html)
+
+[Deasciifier Link 1](http://104.247.163.162/nlptoolkit/turkish-deasciifier.html) [Deasciifier Link 2](https://starlangsoftware.github.io/nlptoolkit-web-simple/turkish-deasciifier.html)
+
 Video Lectures
 ============
 
